@@ -1,0 +1,53 @@
+openapi: '3.0.3'
+info:
+  title: Katalog API
+  version: '1.0'
+servers:
+  - url: https://localhost:50001
+tags:
+  - name: Shop
+paths:
+  /articles:
+    get:
+      tags:
+        - Shop
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+    post:
+      tags:
+        - Shop
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Article'
+
+
+components:
+  schemas:
+    Article:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          maxLength: 36
+        name:
+          type: string
+          maxLength: 300
+        price:
+          type: number
+          format: float
+          minimum: 0
+          maximum: 10000
