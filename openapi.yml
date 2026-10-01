@@ -19,10 +19,15 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Article'
+                  $ref: '#/components/schemas/ArticleResponse'
     post:
       tags:
         - Shop
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ArticleRequest'
       responses:
         '200':
           description: OK
@@ -31,23 +36,45 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Article'
+                  $ref: '#/components/schemas/ArticleResponse'
 
 
 components:
   schemas:
-    Article:
+    Id:
+      type: string
+      format: uuid
+      maxLength: 36
+    Name:
+          type: string
+          maxLength: 300
+    Price:
+      type: number
+      format: float
+      minimum: 0
+      maximum: 10000
+    ArticleRequest:
       type: object
       properties:
         id:
-          type: string
-          format: uuid
-          maxLength: 36
+          $ref: '#/components/schemas/Id'
         name:
-          type: string
-          maxLength: 300
+          $ref: '#/components/schemas/Name'
         price:
-          type: number
-          format: float
-          minimum: 0
-          maximum: 10000
+          $ref: '#/components/schemas/Price'
+      required:        
+        - name
+        - price
+    ArticleResponse:
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        name:
+          $ref: '#/components/schemas/Name'
+        price:
+          $ref: '#/components/schemas/Price'
+      required:
+        - id      
+        - name
+        - price
