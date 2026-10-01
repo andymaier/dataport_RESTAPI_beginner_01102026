@@ -23,20 +23,41 @@ paths:
     post:
       tags:
         - Shop
+      summary: Das ist der Endpunkt mit dem ein Artikel erstellt wird.
+      description: | 
+        Der Artikel kann die folgenden Felder haben.
+
+          - id
+          - name
+          - preis
+
+        Name | Lunch order | Spicy      | Owes
+        ------- | ---------------- | ---------- | ---------:
+        Joan  | saag paneer | medium | $11
+        Sally  | vindaloo        | mild       | $14
+        Erin   | lamb madras | HOT      | $5
+
+        ![Alt Text](https://miro.medium.com/v2/resize:fit:1184/0*-WlIYBpIxFsrnxyK.png)
+
       requestBody:
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/ArticleRequest'
       responses:
-        '200':
-          description: OK
+        '201':
+          description: Created
+          headers:
+            Location:
+              description: URI des neuen Artikels
+              schema:
+                type: string
+                format: uri
+                example: http://localhost:50001/articles/123
           content:
             application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/ArticleResponse'
+              schema:                
+                $ref: '#/components/schemas/ArticleResponse'
 
 
 components:
@@ -45,14 +66,20 @@ components:
       type: string
       format: uuid
       maxLength: 36
+      example: asdjalskdjlkasjd
+      description: Das ist die eindeutige Identifikation des Artikels
     Name:
-          type: string
-          maxLength: 300
+      type: string
+      maxLength: 300
+      example: Kirschen
+      description: Das ist der Name des Artikels
     Price:
       type: number
       format: float
       minimum: 0
       maximum: 10000
+      example: 3.88
+      description: Das ist der Preis des Artikels
     ArticleRequest:
       type: object
       properties:
